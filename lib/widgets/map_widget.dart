@@ -1,0 +1,59 @@
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../models/ip_info.dart';
+
+// TODO: Add this to ios/Podfile
+// https://codelabs.developers.google.com/codelabs/google-maps-in-flutter#3
+
+// # Set platform to 13.0 to enable latest Google Maps SDK
+// platform :ios, '13.0' # Uncomment and set to 13.
+
+// # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
+// ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+
+// ADD THIS TO AndroidManifest.xml in <application> tag
+// <meta-data android:name="com.google.android.geo.API_KEY" android:value="KEY"/>
+
+class MapWidget extends StatelessWidget {
+  MapWidget({Key? key, required Coordinates coords})
+      : _location = LatLng(coords.latitude, coords.longitude),
+        super(key: key);
+
+  final LatLng _location;
+  late final GoogleMapController mapController;
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isMobile = Theme.of(context).platform == TargetPlatform.iOS ||
+        Theme.of(context).platform == TargetPlatform.android;
+    final Widget widget;
+
+    if (isMobile) {
+      widget = GoogleMap(
+        onMapCreated: _onMapCreated,
+        markers: {
+          Marker(
+            markerId: const MarkerId('Your IP Location'),
+            position: _location,
+          ),
+        },
+        zoomControlsEnabled: false,
+        initialCameraPosition: CameraPosition(
+          target: _location,
+          zoom: 11.0,
+        ),
+      );
+    } else {
+      widget = const Center(
+        child: Text('The map is currently only available on mobile devices.'),
+      );
+    }
+
+    return widget;
+  }
+}
