@@ -1,11 +1,11 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ip_info/bloc/ip_info_bloc.dart';
 import 'package:ip_info/consts/constants.dart';
-import 'package:ip_info/models/ip_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../widgets/appbar.dart';
 import '../widgets/error_card.dart';
 import '../widgets/ip_card.dart';
-import '../services/ip_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
@@ -16,42 +16,35 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late Future<IpInfo?> _ipInfo;
-
-  @override
-  void initState() {
-    super.initState();
-    _ipInfo = IpProvider.fetchIpInfo();
-  }
-
   void _reload() {
     HapticFeedback.lightImpact();
-    setState(() {
-      _ipInfo = IpProvider.fetchIpInfo();
-    });
+    context.read<IpInfoBloc>().add(IpInfoFetched());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: "IP INFO",
+      appBar: CustomAppBar(
+        title: appTitle.toUpperCase(),
       ),
-      body: FutureBuilder<IpInfo?>(
-        future: _ipInfo,
-        builder: (context, snapshot) {
+      body: BlocBuilder<IpInfoBloc, IpInfoState>(
+        buildWhen: (previous, current) => previous.status != current.status,
+        builder: (context, state) {
           Widget body = const Center(
             child: CircularProgressIndicator(
               color: refreshColor,
             ),
           );
 
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasData) {
-              body = IpCard(ipInfo: snapshot.data!);
-            } else if (snapshot.hasError) {
+          switch (state.status) {
+            case IpInfoStatus.success:
+              body = IpCard(ipInfo: state.ipInfo);
+              break;
+            case IpInfoStatus.failure:
               body = const ErrorCard(errorMsg: "Could not fetch IP info");
-            }
+              break;
+            default:
+              break;
           }
 
           return body;

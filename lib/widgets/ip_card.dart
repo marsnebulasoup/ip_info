@@ -1,10 +1,10 @@
 import 'package:ip_info/widgets/map_widget_static.dart';
 import 'package:flutter/material.dart';
+import 'package:ip_info_api/ip_info.dart';
 
 import 'captioned_text.dart';
 import 'copyable_text.dart';
 import 'general_card.dart';
-import '../models/ip_info.dart';
 
 class IpCard extends StatelessWidget {
   const IpCard({Key? key, required this.ipInfo}) : super(key: key);
@@ -30,7 +30,9 @@ class IpCard extends StatelessWidget {
           padding: const EdgeInsets.only(top: 10.0, bottom: 0),
           child: CaptionedText(
               caption: "YOUR APPROXIMATE LOCATION",
-              text: ipInfo.location.toString()),
+              text: ipInfo.location.toString() != ""
+                  ? ipInfo.location.toString()
+                  : "Unknown"),
         ),
         CopyableText(text: ipInfo.coordinates.toString(), size: 16),
         Padding(
