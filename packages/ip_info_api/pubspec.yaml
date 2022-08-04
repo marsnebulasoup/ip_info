@@ -1,0 +1,19 @@
+name: ip_info_api
+description: Dart package to interact with the IP info API.
+publish_to: none
+version: 1.0.0+1
+
+environment: 
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  http: ^0.13.4
+  json_annotation: ^4.4.0
+  equatable: ^2.0.3 
+
+dev_dependencies:
+  build_runner: ^2.0.0
+  json_serializable: ^6.0.0
+  coverage: ^1.0.3
+  mocktail: ^0.3.0
+  test: ^1.16.4
