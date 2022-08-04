@@ -13,8 +13,8 @@ Location _$LocationFromJson(Map<String, dynamic> json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = Location(
-          city: $checkedConvert('city', (v) => v as String),
-          region: $checkedConvert('region', (v) => v as String),
+          city: $checkedConvert('city', (v) => v),
+          region: $checkedConvert('region', (v) => v),
         );
         return val;
       },

@@ -30,7 +30,9 @@ class IpCard extends StatelessWidget {
           padding: const EdgeInsets.only(top: 10.0, bottom: 0),
           child: CaptionedText(
               caption: "YOUR APPROXIMATE LOCATION",
-              text: ipInfo.location.toString()),
+              text: ipInfo.location.toString() != ""
+                  ? ipInfo.location.toString()
+                  : "Unknown"),
         ),
         CopyableText(text: ipInfo.coordinates.toString(), size: 16),
         Padding(

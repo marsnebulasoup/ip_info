@@ -10,14 +10,23 @@ class Location extends Equatable {
   final String city;
   final String region;
 
-  const Location({
-    required this.city,
-    required this.region,
-  });
+  const Location({city, region})
+      : this.city = city ?? "",
+        this.region = region ?? "";
 
   @override
   String toString() {
-    return "$city, $region";
+    String location = "";
+    if (city != "") {
+      location += city;
+    }
+    if (city != "" && region != "") {
+      location += ", ";
+    }
+    if (region != "") {
+      location += region;
+    }
+    return location;
   }
 
   String toJson() {
