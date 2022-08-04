@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../models/ip_info.dart';
-
 // TODO: Add this to ios/Podfile
 // https://codelabs.developers.google.com/codelabs/google-maps-in-flutter#3
 

@@ -1,5 +1,5 @@
+import 'package:ip_info_api/ip_info.dart';
 import 'package:maps_launcher/maps_launcher.dart';
-import 'package:ip_info/models/ip_info.dart';
 import 'package:flutter/material.dart';
 import '../consts/constants.dart';
 
